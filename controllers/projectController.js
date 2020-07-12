@@ -1,6 +1,6 @@
 const Project = require("../models/Project");
 const {validationResult} = require("express-validator");
-const mongoose = require("mongoose");
+const helper = require("./helper");
 
 // Create new project
 exports.createProject = async (req, res) => {
@@ -56,22 +56,7 @@ exports.updateProject = async (req, res) => {
 
     try {
         // Verify ID
-        let project;
-
-        if (mongoose.Types.ObjectId.isValid(req.params.id)) {
-            await Project.findById(req.params.id, (err, result) => {
-                // user is a single document which may be null for no results
-                if (err || !result) {
-                    // there is an error or no a project
-                    project = null;
-                } else {
-                    // there is project
-                    project = result;
-                }
-            });
-        } else {
-            project = null;
-        }
+        let project = await helper.getProject(req.params.id);
 
         // Verify project
         if (!project) {
@@ -97,22 +82,7 @@ exports.updateProject = async (req, res) => {
 exports.deleteProject = async (req, res) => {
     try {
         // Verify ID
-        let project;
-
-        if (mongoose.Types.ObjectId.isValid(req.params.id)) {
-            await Project.findById(req.params.id, (err, result) => {
-                // user is a single document which may be null for no results
-                if (err || !result) {
-                    // there is an error or no a project
-                    project = null;
-                } else {
-                    // there is project
-                    project = result;
-                }
-            });
-        } else {
-            project = null;
-        }
+        let project = await helper.getProject(req.params.id);
 
         // Verify project
         if (!project) {

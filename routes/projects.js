@@ -4,6 +4,8 @@ const router = express.Router();
 
 const projectController = require("../controllers/projectController");
 const auth = require("../middleware/auth");
+const checkValidations = require("../middleware/checkValidations");
+const taskController = require("../controllers/taskController");
 
 // Create project
 // api/projects
@@ -27,6 +29,13 @@ router.put("/:id",
 router.delete("/:id",
     auth,
     projectController.deleteProject
+);
+
+// Get project tasks
+// api/projects/:id/tasks
+router.get("/:id/tasks",
+    auth,
+    taskController.getTasks
 );
 
 module.exports = router;
